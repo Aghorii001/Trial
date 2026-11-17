@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Services Storefront</title>
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --surface-color: #ffffff;
+      --text-color: #1e293b;
+      --muted-text: #64748b;
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --border-color: #e2e8f0;
+      --badge-bg: #eff6ff;
+      --badge-text: #1d4ed8;
+    }
+
+    body.dark-theme {
+      --bg-color: #0f172a;
+      --surface-color: #1e293b;
+      --text-color: #f8fafc;
+      --muted-text: #94a3b8;
+      --primary-color: #3b82f6;
+      --primary-hover: #60a5fa;
+      --border-color: #334155;
+      --badge-bg: #1e3a8a;
+      --badge-text: #93c5fd;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    /* Navigation Bar */
+    header {
+      background-color: var(--surface-color);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: var(--primary-color);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .balance-badge {
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    button.theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: var(--muted-text);
+    }
+
+    /* Service Tiers Grid */
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .tier-card {
+      background-color: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .tier-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary-color);
+    }
+
+    .tier-tag {
+      display: inline-block;
+      background-color: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+      width: fit-content;
+    }
+
+    .tier-card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tier-card p {
+      font-size: 0.9rem;
+      color: var(--muted-text);
+      margin-bottom: 1.5rem;
+    }
+
+    .tier-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1rem;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .price span {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--muted-text);
+    }
+
+    .btn-order {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-order:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Free Trial Section */
+    .trial-box {
+      background-color: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .trial-box h2 {
+      font-size: 1.35rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .trial-box p {
+      color: var(--muted-text);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .trial-form {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .trial-form input {
+      flex: 1;
+      min-width: 240px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-size: 0.95rem;
+    }
+
+    .trial-form button {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .trial-form button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .trial-status {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+
+    /* Info Section */
+    .info-section {
+      background-color: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .info-section h3 {
+      margin-bottom: 0.75rem;
+    }
+
+    .info-section p {
+      color: var(--muted-text);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* Modal for Order Form */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .modal {
+      background-color: var(--surface-color);
+      padding: 2rem;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 420px;
+      border: 1px solid var(--border-color);
+    }
+
+    .modal h3 {
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.65rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted-text);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo">SocialBoost</a>
+    <nav>
+      <a href="#">Shop</a>
+      <a href="#">Account</a>
+      <a href="#">Help</a>
+      <a href="#">Developers API</a>
+    </nav>
+    <div class="header-controls">
+      <span class="balance-badge">Balance: $0.00</span>
+      <button class="theme-toggle" id="themeToggle">Dark Mode</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h1>Social Media Followers</h1>
+      <p>Select a service tier below based on your target audience and budget.</p>
+    </div>
+
+    <!-- 4 Service Tier Cards -->
+    <section class="tiers-grid">
+      <div class="tier-card">
+        <div>
+          <span class="tier-tag">Fast Delivery</span>
+          <h2>Standard / Bots</h2>
+          <p>Automated profiles for quick count increases. Best for basic social proof at the lowest cost.</p>
+        </div>
+        <div class="tier-footer">
+          <div class="price">$0.50 <span>/ 100</span></div>
+          <button class="btn-order" onclick="openModal('Standard / Bots', 0.005)">Select</button>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div>
+          <span class="tier-tag">High Retention</span>
+          <h2>Offers</h2>
+          <p>Incentivized users who complete tasks for rewards. Balanced cost and account stability.</p>
+        </div>
+        <div class="tier-footer">
+          <div class="price">$1.20 <span>/ 100</span></div>
+          <button class="btn-order" onclick="openModal('Offers', 0.012)">Select</button>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div>
+          <span class="tier-tag">Top Quality</span>
+          <h2>Real Accounts</h2>
+          <p>Active profiles with posts and profile photos. Gradual delivery for natural growth.</p>
+        </div>
+        <div class="tier-footer">
+          <div class="price">$2.50 <span>/ 100</span></div>
+          <button class="btn-order" onclick="openModal('Real Accounts', 0.025)">Select</button>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div>
+          <span class="tier-tag">Targeted</span>
+          <h2>GEO Targeted</h2>
+          <p>Followers filtered by specific country or language region to match your local audience.</p>
+        </div>
+        <div class="tier-footer">
+          <div class="price">$3.80 <span>/ 100</span></div>
+          <button class="btn-order" onclick="openModal('GEO Targeted', 0.038)">Select</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Free Trial Section -->
